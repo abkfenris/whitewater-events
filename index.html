@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <meta charset="UTF-8">
+  
+  <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+  <link rel="stylesheet" type="text/css" href="css/dc.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script type="text/javascript" src="js/d3.js"></script>
+  <script type="text/javascript" src="js/crossfilter.js"></script>
+  <script type="text/javascript" src="js/dc.js"></script>
+  <script type="text/javascript" src="js/underscore-min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
+</head>
+
+<body>
+  <div>
+
+    <div class="row" id="header">
+      <div class="col-sm-12">
+        <div class="container">
+          <h1>River events</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="status">
+      <div class="col-sm-12">
+        <div class="container" id="status-container">
+          <h4 id="status-msg">Things coming soon</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="data">
+      <div class="col-sm-4" id="filters">
+        <div class="filters-container">
+
+          <div class="row">
+            <div id="data-count container">
+              <span class="filter-count"></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-chart container">
+              <h4>Region <small><a id="region" href="#">reset</a></small></h4>
+              <div id="chart-region-row" class="chart-row"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-chart container">
+              <h4>Month <small><a id="month" href="#">reset</a></small></h4>
+              <div id="chart-month-row" class="chart-row"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-chart container">
+              <h4>Event Type <small><a id="event-type" href="#">reset</a></small></h4>
+              <div id="chart-event-type-row" class="chart-row"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-sm-8">
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#event-list-tab" aria-controls="event-list-tab" role="tab" data-toggle="tab">Events</a></li>
+          <li role="presentation"><a href="#map-tab" aria-controls="map-tab" role="tab" data-toggle="tab">Event Map</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+
+          <div role="tabpanel" class="tab-pane active" id="event-list-tab">
+            <table id="event-list" class="table table-hover">
+              <thead>
+                <tr class="header">
+                  <th>Event</th>
+                  <th>Date</th>
+                  <th>Region</th>
+                </tr>
+              </thead>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="map-tab">
+            Map goes here
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  
+
+
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+/* main.css: Add and override styles */
+.dc-data-count small {
+  font-size: 16px;
+}
+
+.container-fluid {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.pie-chart {
+  height: 150px;
+}
+
+.dc-chart .axis text{
+  font-size: 12px;
+}
+
+text {
+  font-size: 16px;
+}
+
+#map {
+  height: 150px;
+}
+
+#control-row {
+  padding-bottom: 20px;
+}
+
+a { cursor: pointer }
+
+#auth {
+  background-color: #ddd;
+  padding-bottom: 20px;
+}
+
+#deauth-button {
+  margin-top: 20px;
+}
+
+#data {
+  opacity: .2;
+}
+
+.filters-container .row:nth-child(even) {
+  background-color: #ddd;
+}
+
+.filters-container .row:nth-child(odd) {
+  background-color: white;
+}
+
+.filters-container .row:nth-child(even)>text {
+  fill: white;
+}
+
+.filters-container .row:nth-child(odd) text {
+  fill: black;
+}
+
+#map {
+  height: 100%;
+  float: left;
+}
+
+#filters {
+  height: 100%;
+  overflow-y: scroll;
+  float: right;
+}
