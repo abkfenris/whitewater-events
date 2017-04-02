@@ -9,6 +9,11 @@ h2o.CALLBACK_URL = 'https://spreadsheets.google.com/feeds/cells/1SgQvKoejjnWaQhc
 h2o.SHEET = 'https://docs.google.com/spreadsheets/d/1SgQvKoejjnWaQhcwTP39EDYUOmPCTK9Pc8li9cuOLu8/edit?usp=sharing';
 h2o.DIMS = {HEIGHT: 300, WIDTH: 350}
 
+h2o.parseDate = d3.time.format('%m/%d/%Y');
+h2o.weekOffset = -7 * 24 * 60 * 60 * 1000 // days, hours, min, seconds, milliseconds offset
+h2o.weekAgo = new Date(new Date().getTime() + h2o.weekOffset)
+h2o.latest = h2o.weekAgo;
+
 
 // cross filter, and all group/dimension
 h2o.ndx = crossfilter();
@@ -19,6 +24,11 @@ h2o.allDim = h2o.ndx.dimension(function(d) {
 
 // count number of events selected
 //h2o.filterCount = dc.dataCount('.filter-count');
+h2o.dateDim = h2o.ndx.dimension(function(d) {
+  return d['Date'];
+})
+h2o.dateCount = h2o.dateDim.group().reduceCount();
+h2o.dateChart = dc.barChart('#chart-event-date');
 
 // region charts
 h2o.regionDim = h2o.ndx.dimension(function(d) {
@@ -67,6 +77,10 @@ d3.selectAll('a#all').on('click', function() {
   dc.filterAll();
   dc.renderAll();
 });
+d3.selectAll('a#event-date').on('click', function() {
+  h2o.dateChart.filterAll();
+  dc.redrawAll();
+})
 d3.selectAll('a#region').on('click', function() {
   h2o.regionChart.filterAll();
   dc.redrawAll();
@@ -96,12 +110,27 @@ h2o.test = function(data, tabletop) {
   h2o.overview_columns = data.Overview.columnNames;
 
   h2o.overview = [];
+  h2o.old = [];
   var numHeaders = ["Latitude", "Longitude"];
   data.Overview.elements.forEach(function(row) {
     numHeaders.forEach(function(numHeader) {
       row[numHeader] = +row[numHeader];
     });
-    h2o.overview.push(row);
+
+    row.Date = h2o.parseDate.parse(row.Date);
+
+    if (row['Event Type'] == '') {
+      row['Event Type'] = 'Unknown'
+    }
+
+    if (row.Date > h2o.weekAgo) {
+      h2o.overview.push(row);
+    } else {
+      h2o.old.push(row);
+    }
+    if (row.Date > h2o.latest) {
+      h2o.latest = row.Date;
+    }
   })
 
   h2o.ndx.add(h2o.overview);
@@ -111,6 +140,19 @@ h2o.test = function(data, tabletop) {
 }
 
 h2o.buildCharts = function() {
+  h2o.dateChart
+    .width(h2o.DIMS.WIDTH * 2)
+    .height(h2o.DIMS.HEIGHT / 2)
+    .dimension(h2o.dateDim)
+    .group(h2o.dateCount)
+    .x(d3.time.scale().domain([h2o.weekAgo, h2o.latest]))
+    .round(d3.time.week.round)
+    .alwaysUseRounding(true)
+    .xUnits(d3.time.weeks)
+    .gap(1)
+    .centerBar(true)
+    ;
+
   h2o.regionChart
     .width(h2o.DIMS.WIDTH)
     .height(h2o.DIMS.HEIGHT)
@@ -137,10 +179,15 @@ h2o.buildCharts = function() {
     .group(function(d) { return 'Event table'; })
     .columns([
       "Festival or Race",
-      "Date",
+      {
+        label: "Date",
+        format: function(d) {
+          return d.Date.toDateString();
+        }
+      },
       "Region"
     ])
-    .sortBy(function(d) { return d['Festival or Race']; })
+    .sortBy(function(d) { return d['Date']; })
     .order(d3.ascending)
     .on('renderlet', function(table) {
       // each time the table is rendered remove the extra row of the group name

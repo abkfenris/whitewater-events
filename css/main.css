@@ -65,7 +65,7 @@ a { cursor: pointer }
 }
 
 #filters {
-  height: 100%;
-  overflow-y: scroll;
+  /*height: 100%;
+  overflow-y: scroll;*/
   float: right;
 }
