@@ -146,9 +146,9 @@ h2o.buildCharts = function() {
     .dimension(h2o.dateDim)
     .group(h2o.dateCount)
     .x(d3.time.scale().domain([h2o.weekAgo, h2o.latest]))
-    .round(d3.time.week.round)
+    //.round(d3.time.week.round)
     .alwaysUseRounding(true)
-    .xUnits(d3.time.weeks)
+    //.xUnits(d3.time.weeks)
     .gap(1)
     .centerBar(true)
     ;
