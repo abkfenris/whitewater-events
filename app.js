@@ -178,7 +178,12 @@ h2o.buildCharts = function() {
     .dimension(h2o.allDim)
     .group(function(d) { return 'Event table'; })
     .columns([
-      "Festival or Race",
+      {
+        label: "Festival or Race",
+        format: function(d) {
+          return '<a href="'+ d["Festival or Race Page URL"] + '">' + d["Festival or Race"] + '</a>';
+        }
+      },
       {
         label: "Date",
         format: function(d) {
