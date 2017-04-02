@@ -190,7 +190,19 @@ h2o.buildCharts = function() {
           return d.Date.toDateString();
         }
       },
-      "Region"
+      "Region",
+      {
+        label: 'Section',
+        format: function(d) {
+          if (d["River(s)"] == "") {
+            return '<small>' + d["Section(s) (Grade)"] + '</small>';
+          } else if (d["Section(s) (Grade)"] != "") {
+            return '<small>' + d["River(s)"] + ' - ' + d["Section(s) (Grade)"] + '</small>';
+          } else {
+            return '<small>' + d["River(s)"] +  '</small>';
+          }
+        }
+      }
     ])
     .sortBy(function(d) { return d['Date']; })
     .order(d3.ascending)
