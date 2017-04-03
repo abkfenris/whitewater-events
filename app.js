@@ -155,7 +155,8 @@ h2o.buildCharts = function() {
     .centerBar(true)
     .elasticY(true)
     ;
-  h2o.date
+  h2o.dateChart.yAxis()
+    .tickFormat(d3.format('d'));
 
   h2o.regionChart
     .width(h2o.DIMS.WIDTH)
@@ -163,6 +164,8 @@ h2o.buildCharts = function() {
     .dimension(h2o.regionDim)
     .group(h2o.regionCount)
     .elasticX(true);
+  h2o.regionChart.xAxis()
+    .tickFormat(d3.format('d'));
   
   h2o.monthChart
     .width(h2o.DIMS.WIDTH)
@@ -170,6 +173,8 @@ h2o.buildCharts = function() {
     .dimension(h2o.monthDim)
     .group(h2o.monthCount)
     .elasticX(true);
+  h2o.monthChart.xAxis()
+    .tickFormat(d3.format('d'));
   
   h2o.eventTypeChart
     .width(h2o.DIMS.WIDTH)
@@ -177,6 +182,8 @@ h2o.buildCharts = function() {
     .dimension(h2o.eventTypeDim)
     .group(h2o.eventTypeCount)
     .elasticX(true);
+  h2o.eventTypeChart.xAxis()
+    .tickFormat(d3.format('d'));
   
   h2o.table
     .dimension(h2o.allDim)
@@ -229,7 +236,7 @@ h2o.buildCharts = function() {
   
   h2o.table.on('renderlet', function(table) {
     table.select('tr.dc-table-group').remove();
-    
+
     h2o.markers.clearLayers();
     h2o.clusters.clearLayers();
     h2o.allDim.top(Infinity).forEach(function(d) {
