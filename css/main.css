@@ -60,12 +60,17 @@ a { cursor: pointer }
 }
 
 #map {
-  height: 100%;
+  height: 300px;
   float: left;
+  width: 100%;
 }
 
 #filters {
   /*height: 100%;
   overflow-y: scroll;*/
   float: right;
+}
+
+.leaflet-popup-content p {
+  text-align: center;
 }

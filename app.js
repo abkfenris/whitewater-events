@@ -8,6 +8,8 @@ var h2o = {};
 h2o.CALLBACK_URL = 'https://spreadsheets.google.com/feeds/cells/1SgQvKoejjnWaQhcwTP39EDYUOmPCTK9Pc8li9cuOLu8/od6/public/values?alt=json-in-script&callback=myCallback';
 h2o.SHEET = 'https://docs.google.com/spreadsheets/d/1SgQvKoejjnWaQhcwTP39EDYUOmPCTK9Pc8li9cuOLu8/edit?usp=sharing';
 h2o.DIMS = {HEIGHT: 300, WIDTH: 350}
+h2o.MapDim = d3.select('#map');
+h2o.DIMS.WIDE_WIDTH = h2o.MapDim.node().getBoundingClientRect().width;
 
 h2o.parseDate = d3.time.format('%m/%d/%Y');
 h2o.weekOffset = -7 * 24 * 60 * 60 * 1000 // days, hours, min, seconds, milliseconds offset
@@ -141,7 +143,7 @@ h2o.test = function(data, tabletop) {
 
 h2o.buildCharts = function() {
   h2o.dateChart
-    .width(h2o.DIMS.WIDTH * 2)
+    .width(h2o.DIMS.WIDE_WIDTH)
     .height(h2o.DIMS.HEIGHT / 2)
     .dimension(h2o.dateDim)
     .group(h2o.dateCount)
@@ -151,6 +153,7 @@ h2o.buildCharts = function() {
     //.xUnits(d3.time.weeks)
     .gap(1)
     .centerBar(true)
+    .elasticY(true)
     ;
 
   h2o.regionChart
@@ -177,6 +180,7 @@ h2o.buildCharts = function() {
   h2o.table
     .dimension(h2o.allDim)
     .group(function(d) { return 'Event table'; })
+    .size(150)
     .columns([
       {
         label: "Festival or Race",
@@ -210,6 +214,41 @@ h2o.buildCharts = function() {
       // each time the table is rendered remove the extra row of the group name
       table.select('tr.dc-table-group').remove();
     });
+  
+  h2o.map = L.map('map').setView([39.74739, -90], 3);
+  h2o.mapbox = L.tileLayer('http://api.tiles.mapbox.com/v4/fenris.kdh92755/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmVucmlzIiwiYSI6InRHbm4xbkEifQ.Q_qWH1M_NebCj3c6yiyXng', {
+      attribution: 'Map data &copy; [...]',
+      maxZoom: 18
+    }).addTo(h2o.map);
+  
+  h2o.markers = new L.FeatureGroup();
+  h2o.clusters = L.markerClusterGroup();
+  h2o.clusters.addLayer(h2o.markers)
+              .addTo(h2o.map);
+  
+  h2o.table.on('renderlet', function(table) {
+    h2o.markers.clearLayers();
+    h2o.clusters.clearLayers();
+    h2o.allDim.top(Infinity).forEach(function(d) {
+      var name = d['Festival or Race'];
+      var url = d['Festival or Race Page URL'];
+      var marker = L.marker([d['Latitude'], d['Longitude']]);
+      var popUpDiv = '<p><a href="' + url + '">' + name + '</a></p>';
+      popUpDiv += '<p>' + d['Date'].toDateString() + '</p>';
+      popUpDiv += '<p>' + d['Event Type'] + '</p>';
+      marker.bindPopup(popUpDiv);
+      h2o.markers.addLayer(marker);
+    })
+    h2o.clusters.addLayer(h2o.markers);
+  })
+
+  h2o.map.on('move', function(event) {
+    var bounds = L.latLngBounds(h2o.map.getBounds());
+    h2o.allDim.filter(function(d) {
+      return bounds.contains([d['Latitude'], d['Longitude']]);
+    })
+    dc.redrawAll();
+  })
   
   dc.renderAll();
   h2o.statusContainerDiv
