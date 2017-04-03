@@ -155,6 +155,7 @@ h2o.buildCharts = function() {
     .centerBar(true)
     .elasticY(true)
     ;
+  h2o.date
 
   h2o.regionChart
     .width(h2o.DIMS.WIDTH)
@@ -209,11 +210,11 @@ h2o.buildCharts = function() {
       }
     ])
     .sortBy(function(d) { return d['Date']; })
-    .order(d3.ascending)
-    .on('renderlet', function(table) {
+    .order(d3.ascending);
+    /*.on('renderlet', function(table) {
       // each time the table is rendered remove the extra row of the group name
-      table.select('tr.dc-table-group').remove();
-    });
+      
+    });*/
   
   h2o.map = L.map('map').setView([39.74739, -90], 3);
   h2o.mapbox = L.tileLayer('http://api.tiles.mapbox.com/v4/fenris.kdh92755/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmVucmlzIiwiYSI6InRHbm4xbkEifQ.Q_qWH1M_NebCj3c6yiyXng', {
@@ -227,6 +228,8 @@ h2o.buildCharts = function() {
               .addTo(h2o.map);
   
   h2o.table.on('renderlet', function(table) {
+    table.select('tr.dc-table-group').remove();
+    
     h2o.markers.clearLayers();
     h2o.clusters.clearLayers();
     h2o.allDim.top(Infinity).forEach(function(d) {
