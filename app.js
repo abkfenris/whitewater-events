@@ -188,7 +188,7 @@ h2o.buildCharts = function() {
   h2o.table
     .dimension(h2o.allDim)
     .group(function(d) { return 'Event table'; })
-    .size(150)
+    .size(1000)
     .columns([
       {
         label: "Festival or Race",
