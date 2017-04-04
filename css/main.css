@@ -69,6 +69,11 @@ a { cursor: pointer }
   /*height: 100%;
   overflow-y: scroll;*/
   float: right;
+  max-width: 350px;
+}
+
+.filter-container {
+  padding: 0 10px;
 }
 
 .leaflet-popup-content p {

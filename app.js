@@ -7,7 +7,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiZmVucmlzIiwiYSI6InRHbm4xbkEifQ.Q_qWH1M_NebCj3
 var h2o = {};
 h2o.CALLBACK_URL = 'https://spreadsheets.google.com/feeds/cells/1SgQvKoejjnWaQhcwTP39EDYUOmPCTK9Pc8li9cuOLu8/od6/public/values?alt=json-in-script&callback=myCallback';
 h2o.SHEET = 'https://docs.google.com/spreadsheets/d/1SgQvKoejjnWaQhcwTP39EDYUOmPCTK9Pc8li9cuOLu8/edit?usp=sharing';
-h2o.DIMS = {HEIGHT: 300, WIDTH: 350}
+h2o.DIMS = {HEIGHT: 300, WIDTH: 300}
 h2o.MapDim = d3.select('#map');
 h2o.DIMS.WIDE_WIDTH = h2o.MapDim.node().getBoundingClientRect().width;
 
