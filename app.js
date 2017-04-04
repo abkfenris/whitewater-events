@@ -1,7 +1,7 @@
 //var CLIENT_ID = '543058985761-1obk7elm4v961k6k40p6gai8q4f45vap.apps.googleusercontent.com';
 // var SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
 
-L.mapbox.accessToken = 'pk.eyJ1IjoiZmVucmlzIiwiYSI6InRHbm4xbkEifQ.Q_qWH1M_NebCj3c6yiyXng';
+L.mapbox.accessToken = 'pk.eyJ1IjoiZmVucmlzIiwiYSI6ImNqMTNsZTI0NDAxZW0zMm1sa3U4YzhsZGIifQ.aJ0ArgG_a-yNgX95lgyRzg';
 
 // set our global variables
 var h2o = {};
